@@ -1,6 +1,11 @@
 package com.ar.aitestcasegenerator.dto;
 
+import com.ar.aitestcasegenerator.enums.Priority;
+import com.ar.aitestcasegenerator.enums.Severity;
+import com.ar.aitestcasegenerator.enums.TestCaseStatus;
+import com.ar.aitestcasegenerator.enums.TestType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class TestCaseRequest {
@@ -20,6 +25,22 @@ public class TestCaseRequest {
     @NotBlank(message = "Expected result is required")
     @Size(max = 2000, message = "Expected result must not exceed 2000 characters")
     private String expectedResult;
+
+    @NotNull(message = "Test type is required")
+    private TestType testType;
+
+    @NotNull(message = "Priority is required")
+    private Priority priority;
+
+    @NotNull(message = "Status is required")
+    private TestCaseStatus status;
+
+    @NotNull(message = "Severity is required")
+    private Severity severity;
+
+    @NotBlank(message = "Module name is required")
+    @Size(max = 150, message = "Module name must not exceed 150 characters")
+    private String moduleName;
 
     public String getFeatureName() {
         return featureName;
@@ -51,5 +72,45 @@ public class TestCaseRequest {
 
     public void setExpectedResult(String expectedResult) {
         this.expectedResult = expectedResult;
+    }
+
+    public TestType getTestType() {
+        return testType;
+    }
+
+    public void setTestType(TestType testType) {
+        this.testType = testType;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public TestCaseStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TestCaseStatus status) {
+        this.status = status;
+    }
+
+    public Severity getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
     }
 }

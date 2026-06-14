@@ -63,5 +63,10 @@ public class TestCaseService {
         testCase.setTestScenario(request.getTestScenario().trim());
         testCase.setTestSteps(request.getTestSteps().trim());
         testCase.setExpectedResult(request.getExpectedResult().trim());
+        testCase.setTestType(request.getTestType());
+        testCase.setPriority(request.getPriority());
+        testCase.setStatus(request.getStatus());
+        testCase.setSeverity(request.getSeverity());
+        testCase.setModuleName(request.getModuleName().trim());
     }
 }

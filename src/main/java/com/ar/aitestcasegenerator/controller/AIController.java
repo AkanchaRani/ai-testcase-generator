@@ -27,7 +27,7 @@ public class AIController {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 ApiResponse.success(
                         HttpStatus.CREATED.value(),
-                        "Test case generated and saved successfully",
+                        "Test cases generated and saved successfully",
                         generatedTestCase));
     }
 }

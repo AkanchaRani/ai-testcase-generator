@@ -1,5 +1,9 @@
 package com.ar.aitestcasegenerator.entity;
 
+import com.ar.aitestcasegenerator.enums.Priority;
+import com.ar.aitestcasegenerator.enums.Severity;
+import com.ar.aitestcasegenerator.enums.TestCaseStatus;
+import com.ar.aitestcasegenerator.enums.TestType;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,6 +21,20 @@ public class TestCase {
     private String testSteps;
 
     private String expectedResult;
+
+    @Enumerated(EnumType.STRING)
+    private TestType testType;
+
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
+
+    @Enumerated(EnumType.STRING)
+    private TestCaseStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private Severity severity;
+
+    private String moduleName;
 
     public TestCase() {
     }
@@ -58,5 +76,45 @@ public class TestCase {
 
     public void setExpectedResult(String expectedResult) {
         this.expectedResult = expectedResult;
+    }
+
+    public TestType getTestType() {
+        return testType;
+    }
+
+    public void setTestType(TestType testType) {
+        this.testType = testType;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public TestCaseStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TestCaseStatus status) {
+        this.status = status;
+    }
+
+    public Severity getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
     }
 }

@@ -1,44 +1,30 @@
 package com.ar.aitestcasegenerator.dto;
 
+import java.util.List;
+
 public class GeneratedTestCaseResponse {
 
-    private String featureName;
-    private String testScenario;
-    private String testSteps;
-    private String expectedResult;
+    private final String featureName;
+    private final int totalGenerated;
+    private final List<GeneratedTestCaseItemResponse> testCases;
 
-    public GeneratedTestCaseResponse() {
+    public GeneratedTestCaseResponse(
+            String featureName,
+            List<GeneratedTestCaseItemResponse> testCases) {
+        this.featureName = featureName;
+        this.totalGenerated = testCases.size();
+        this.testCases = testCases;
     }
 
     public String getFeatureName() {
         return featureName;
     }
 
-    public void setFeatureName(String featureName) {
-        this.featureName = featureName;
+    public int getTotalGenerated() {
+        return totalGenerated;
     }
 
-    public String getTestScenario() {
-        return testScenario;
-    }
-
-    public void setTestScenario(String testScenario) {
-        this.testScenario = testScenario;
-    }
-
-    public String getTestSteps() {
-        return testSteps;
-    }
-
-    public void setTestSteps(String testSteps) {
-        this.testSteps = testSteps;
-    }
-
-    public String getExpectedResult() {
-        return expectedResult;
-    }
-
-    public void setExpectedResult(String expectedResult) {
-        this.expectedResult = expectedResult;
+    public List<GeneratedTestCaseItemResponse> getTestCases() {
+        return testCases;
     }
 }
