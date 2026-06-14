@@ -1,50 +1,67 @@
 package com.ar.aitestcasegenerator.service;
 
+import com.ar.aitestcasegenerator.dto.TestCaseRequest;
 import com.ar.aitestcasegenerator.entity.TestCase;
+import com.ar.aitestcasegenerator.exception.ResourceNotFoundException;
 import com.ar.aitestcasegenerator.repository.TestCaseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+
 @Service
 public class TestCaseService {
 
-    @Autowired
-    private TestCaseRepository testCaseRepository;
+    private static final Logger log = LoggerFactory.getLogger(TestCaseService.class);
 
-    public TestCase saveTestCase(TestCase testCase) {
-        return testCaseRepository.save(testCase);
+    private final TestCaseRepository testCaseRepository;
+
+    public TestCaseService(TestCaseRepository testCaseRepository) {
+        this.testCaseRepository = testCaseRepository;
     }
+
+    public TestCase saveTestCase(TestCaseRequest request) {
+        TestCase testCase = new TestCase();
+        updateEntity(testCase, request);
+        TestCase savedTestCase = testCaseRepository.save(testCase);
+        log.info("Created test case with id {}", savedTestCase.getId());
+        return savedTestCase;
+    }
+
     public List<TestCase> getAllTestCases() {
+        log.debug("Retrieving all test cases");
         return testCaseRepository.findAll();
     }
+
     public TestCase getTestCaseById(Long id) {
-        return testCaseRepository.findById(id).orElse(null);
+        return findTestCase(id);
     }
+
     public void deleteTestCase(Long id) {
-        testCaseRepository.deleteById(id);
+        TestCase testCase = findTestCase(id);
+        testCaseRepository.delete(testCase);
+        log.info("Deleted test case with id {}", id);
     }
-    public TestCase updateTestCase(Long id, TestCase updatedTestCase) {
 
-        TestCase existingTestCase =
-                testCaseRepository.findById(id).orElse(null);
+    public TestCase updateTestCase(Long id, TestCaseRequest request) {
+        TestCase existingTestCase = findTestCase(id);
+        updateEntity(existingTestCase, request);
+        TestCase savedTestCase = testCaseRepository.save(existingTestCase);
+        log.info("Updated test case with id {}", id);
+        return savedTestCase;
+    }
 
-        if(existingTestCase != null) {
+    private TestCase findTestCase(Long id) {
+        return testCaseRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Test case not found with id: " + id));
+    }
 
-            existingTestCase.setFeatureName(
-                    updatedTestCase.getFeatureName());
-
-            existingTestCase.setTestScenario(
-                    updatedTestCase.getTestScenario());
-
-            existingTestCase.setTestSteps(
-                    updatedTestCase.getTestSteps());
-
-            existingTestCase.setExpectedResult(
-                    updatedTestCase.getExpectedResult());
-
-            return testCaseRepository.save(existingTestCase);
-        }
-
-        return null;
+    private void updateEntity(TestCase testCase, TestCaseRequest request) {
+        testCase.setFeatureName(request.getFeatureName().trim());
+        testCase.setTestScenario(request.getTestScenario().trim());
+        testCase.setTestSteps(request.getTestSteps().trim());
+        testCase.setExpectedResult(request.getExpectedResult().trim());
     }
 }
